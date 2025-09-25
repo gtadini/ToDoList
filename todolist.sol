@@ -13,15 +13,15 @@ contract ToDoList {
         uint256 timestamp;
     }
 
-    Tarea[] public s_tasks;  // Fixed: Use `Tarea` (not `Task`)
+    Tarea[] public s_tasks; 
 
     event ToDoList_TaskCreated(Tarea task);
     event ToDoList_TaskCompleted(Tarea task);
-    event ToDoList_TaskDeleted(string description, uint256 timestamp);  // Fixed: Added missing `timestamp` param
+    event ToDoList_TaskDeleted(string description, uint256 timestamp);  
 
     function createTask(string memory _description) external {
-        Tarea memory newTask = Tarea({  // Fixed: Use `Tarea` (not `Task`)
-            description: _description,  // Fixed: Typo `_descripton` → `_description`
+        Tarea memory newTask = Tarea({  
+            description: _description,  
             completed: false,
             timestamp: block.timestamp
         });
@@ -30,7 +30,7 @@ contract ToDoList {
         emit ToDoList_TaskCreated(newTask);
     }
 
-    function getTask(uint256 _index) external view returns (Tarea memory) {  // Fixed: `Task` → `Tarea`
+    function getTask(uint256 _index) external view returns (Tarea memory) {  
         return s_tasks[_index];  // Fixed: `s_task` → `s_tasks`
     }
 
@@ -41,14 +41,14 @@ contract ToDoList {
 
     function deleteTask(string memory _description) external {
         uint256 arrayLength = s_tasks.length;
-        for (uint256 i = 0; i < arrayLength; i++) {  // Fixed: `1 < arrayLength - 1` → `i < arrayLength`
+        for (uint256 i = 0; i < arrayLength; i++) {  
             if (
                 keccak256(bytes(s_tasks[i].description)) ==
                 keccak256(bytes(_description))
             ) {
                 s_tasks[i] = s_tasks[arrayLength - 1];
                 s_tasks.pop();
-                emit ToDoList_TaskDeleted(_description, block.timestamp);  // Fixed: Event name + added `timestamp`
+                emit ToDoList_TaskDeleted(_description, block.timestamp);  
                 return;
             }
         }
